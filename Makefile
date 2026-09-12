@@ -39,7 +39,7 @@ all: $(MARKETPLACE_MANIFESTS)
 				category: "Productivity"
 			})
 		}' \
-		$(PLUGIN_MANIFESTS) > "$@"
+		$(PLUGIN_MANIFESTS) </dev/null > "$@"
 
  .claude-plugin/marketplace.json: $(PLUGIN_MANIFESTS) Makefile
 	@jq -s \
@@ -53,7 +53,7 @@ all: $(MARKETPLACE_MANIFESTS)
 				source: "./plugins/" + .name
 			})
 		}' \
-		$(PLUGIN_MANIFESTS) > "$@"
+		$(PLUGIN_MANIFESTS) </dev/null > "$@"
 
 .github/plugin/marketplace.json: $(PLUGIN_MANIFESTS) Makefile
 	@jq -s \
@@ -67,4 +67,4 @@ all: $(MARKETPLACE_MANIFESTS)
 				source: "./plugins/" + .name
 			})
 		}' \
-		$(PLUGIN_MANIFESTS) > "$@"
+		$(PLUGIN_MANIFESTS) </dev/null > "$@"
