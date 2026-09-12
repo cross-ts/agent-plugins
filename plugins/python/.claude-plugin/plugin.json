@@ -1,0 +1,11 @@
+{
+  "name": "python",
+  "lspServers": {
+    "python": {
+      "command": "pylsp",
+      "extensionToLanguage": {
+        ".py": "python"
+      }
+    }
+  }
+}

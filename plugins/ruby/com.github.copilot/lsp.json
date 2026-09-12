@@ -1,0 +1,10 @@
+{
+  "lspServers": {
+    "ruby": {
+      "command": "ruby-lsp",
+      "fileExtensions": {
+        ".rb": "ruby"
+      }
+    }
+  }
+}

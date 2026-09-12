@@ -1,0 +1,10 @@
+{
+  "lspServers": {
+    "python": {
+      "command": "pylsp",
+      "fileExtensions": {
+        ".py": "python"
+      }
+    }
+  }
+}

@@ -5,12 +5,28 @@
   },
   "plugins": [
     {
+      "name": "go",
+      "source": "./plugins/go"
+    },
+    {
+      "name": "lua",
+      "source": "./plugins/lua"
+    },
+    {
       "name": "obsidian",
       "source": "./plugins/obsidian"
     },
     {
       "name": "php",
       "source": "./plugins/php"
+    },
+    {
+      "name": "python",
+      "source": "./plugins/python"
+    },
+    {
+      "name": "ruby",
+      "source": "./plugins/ruby"
     }
   ]
 }
