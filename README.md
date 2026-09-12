@@ -35,6 +35,9 @@ copilot plugin marketplace add git@github.com:cross-ts/agent-plugins.git
 
 ### Claude
 
+> [!WARNING]
+> Agent Plugins not supported.
+
 - [Hooks](https://code.claude.com/docs/en/hooks)
 - [Skills](https://code.claude.com/docs/en/skills)
 - [LSP](https://code.claude.com/docs/en/plugins-reference#lsp-servers)
@@ -50,6 +53,9 @@ copilot plugin marketplace add git@github.com:cross-ts/agent-plugins.git
 - [Marketplace](https://learn.chatgpt.com/docs/enterprise/plugin-management)
 
 ### Antigravity
+
+> [!WARNING]
+> Agent Plugins not supported.
 
 - [Hooks](https://antigravity.google/docs/hooks/)
 - [Skills](https://antigravity.google/docs/skills/)
