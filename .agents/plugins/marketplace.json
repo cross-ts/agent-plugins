@@ -1,8 +1,5 @@
 {
   "name": "cross-ts",
-  "interface": {
-    "displayName": "cross-ts Agent Plugins"
-  },
   "plugins": [
     {
       "name": "sample",
