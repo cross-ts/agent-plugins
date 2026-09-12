@@ -1,0 +1,10 @@
+{
+  "lspServers": {
+    "lua": {
+      "command": "lua-language-server",
+      "fileExtensions": {
+        ".lua": "lua"
+      }
+    }
+  }
+}
