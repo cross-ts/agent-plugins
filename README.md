@@ -37,6 +37,7 @@ copilot plugin marketplace add git@github.com:cross-ts/agent-plugins.git
 
 - [Hooks](https://code.claude.com/docs/en/hooks)
 - [Skills](https://code.claude.com/docs/en/skills)
+- [LSP](https://code.claude.com/docs/en/plugins-reference#lsp-servers)
 - [Plugins](https://code.claude.com/docs/en/plugins)
 - [Marketplace](https://code.claude.com/docs/en/plugin-marketplaces)
 
@@ -44,6 +45,7 @@ copilot plugin marketplace add git@github.com:cross-ts/agent-plugins.git
 
 - [Hooks](https://learn.chatgpt.com/docs/hooks)
 - [Skills](https://learn.chatgpt.com/docs/build-skills)
+- LSP: Not Supported.
 - [Plugins](https://learn.chatgpt.com/docs/build-plugins)
 - [Marketplace](https://learn.chatgpt.com/docs/enterprise/plugin-management)
 
@@ -51,12 +53,14 @@ copilot plugin marketplace add git@github.com:cross-ts/agent-plugins.git
 
 - [Hooks](https://antigravity.google/docs/hooks/)
 - [Skills](https://antigravity.google/docs/skills/)
+- LSP: Not Supported.
 - [Plugins](https://antigravity.google/docs/plugins/)
-- Marketplace: NOT EXISTS
+- Marketplace: Not Supported.
 
 ### GitHub Copilot
 
 - [Hooks](https://docs.github.com/en/copilot/concepts/agents/hooks)
 - [Skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)
+- [LSP](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/add-lsp-servers)
 - [Plugins](https://docs.github.com/en/copilot/concepts/agents/about-plugins)
 - [Marketplace](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-marketplace)
