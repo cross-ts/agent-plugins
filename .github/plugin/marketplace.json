@@ -3,5 +3,10 @@
   "owner": {
     "name": "cross-ts"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "obsidian",
+      "source": "./plugins/obsidian"
+    }
+  ]
 }
