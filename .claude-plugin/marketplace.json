@@ -3,10 +3,5 @@
   "owner": {
     "name": "cross-ts"
   },
-  "plugins": [
-    {
-      "name": "sample",
-      "source": "./plugins/sample"
-    }
-  ]
+  "plugins": []
 }

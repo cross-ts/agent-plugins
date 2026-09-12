@@ -1,17 +1,4 @@
 {
   "name": "cross-ts",
-  "plugins": [
-    {
-      "name": "sample",
-      "source": {
-        "source": "local",
-        "path": "./plugins/sample"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity"
-    }
-  ]
+  "plugins": []
 }
