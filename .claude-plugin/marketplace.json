@@ -7,6 +7,10 @@
     {
       "name": "obsidian",
       "source": "./plugins/obsidian"
+    },
+    {
+      "name": "php",
+      "source": "./plugins/php"
     }
   ]
 }

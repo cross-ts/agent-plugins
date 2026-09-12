@@ -1,0 +1,14 @@
+{
+  "name": "php",
+  "lspServers": {
+    "php": {
+      "command": "intelephense",
+      "args": [
+        "--stdio"
+      ],
+      "extensionToLanguage": {
+        ".php": "php"
+      }
+    }
+  }
+}
