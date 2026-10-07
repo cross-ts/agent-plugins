@@ -27,6 +27,10 @@
     {
       "name": "ruby",
       "source": "./plugins/ruby"
+    },
+    {
+      "name": "tmux",
+      "source": "./plugins/tmux"
     }
   ]
 }
