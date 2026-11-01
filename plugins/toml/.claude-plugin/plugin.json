@@ -1,0 +1,14 @@
+{
+  "name": "toml",
+  "lspServers": {
+    "toml": {
+      "command": "tombi",
+      "args": [
+        "lsp"
+      ],
+      "extensionToLanguage": {
+        ".toml": "toml"
+      }
+    }
+  }
+}
