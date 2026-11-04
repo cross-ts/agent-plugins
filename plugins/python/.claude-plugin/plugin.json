@@ -1,4 +1,4 @@
 {
   "name": "python",
-  "lspServers": "./com.anthropic.claude/lsp.json"
+  "lspServers": "./com.anthropic.claude/.lsp.json"
 }
