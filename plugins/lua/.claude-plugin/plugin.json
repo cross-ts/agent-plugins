@@ -1,11 +1,4 @@
 {
   "name": "lua",
-  "lspServers": {
-    "lua": {
-      "command": "lua-language-server",
-      "extensionToLanguage": {
-        ".lua": "lua"
-      }
-    }
-  }
+  "lspServers": "./com.anthropic.claude/lsp.json"
 }

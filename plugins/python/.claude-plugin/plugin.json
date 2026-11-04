@@ -1,11 +1,4 @@
 {
   "name": "python",
-  "lspServers": {
-    "python": {
-      "command": "pylsp",
-      "extensionToLanguage": {
-        ".py": "python"
-      }
-    }
-  }
+  "lspServers": "./com.anthropic.claude/lsp.json"
 }
