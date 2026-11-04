@@ -16,20 +16,17 @@ OWNER_NAME := cross-ts
 # Tasks #
 #########
 PLUGIN_MANIFESTS := $(wildcard plugins/*/plugin.json)
-CODEX_PLUGIN_MANIFESTS := $(PLUGIN_MANIFESTS) $(wildcard plugins/*/.codex-plugin/plugin.json)
-CLAUDE_PLUGIN_MANIFESTS := $(PLUGIN_MANIFESTS) $(wildcard plugins/*/.claude-plugin/plugin.json)
-COPILOT_PLUGIN_MANIFESTS := $(PLUGIN_MANIFESTS) $(wildcard plugins/*/.github/plugin/plugin.json)
 MARKETPLACE_MANIFESTS := $(shell find . -type f -name marketplace.json)
 
 .PHONY: all
 all: $(MARKETPLACE_MANIFESTS)
 
-.agents/plugins/marketplace.json: $(CODEX_PLUGIN_MANIFESTS) Makefile
+.agents/plugins/marketplace.json: $(PLUGIN_MANIFESTS) $(wildcard plugins/*/.codex-plugin/plugin.json) Makefile
 	@jq -s \
 		--arg name "$(MARKETPLACE_NAME)" \
 		'{
 			name: $$name,
-			plugins: (unique_by(.name) | map({
+			plugins: unique_by(.name) | map({
 				name: .name,
 				source: {
 					source: "local",
@@ -40,34 +37,34 @@ all: $(MARKETPLACE_MANIFESTS)
 					authentication: "ON_INSTALL"
 				},
 				category: "Productivity"
-			}))
+			})
 		}' \
-		$(CODEX_PLUGIN_MANIFESTS) </dev/null > "$@"
+		$(filter-out Makefile,$^) </dev/null > "$@"
 
- .claude-plugin/marketplace.json: $(CLAUDE_PLUGIN_MANIFESTS) Makefile
+.claude-plugin/marketplace.json: $(PLUGIN_MANIFESTS) $(wildcard plugins/*/.claude-plugin/plugin.json) Makefile
 	@jq -s \
 		--arg name "$(MARKETPLACE_NAME)" \
 		--arg owner "$(OWNER_NAME)" \
 		'{
 			name: $$name,
 			owner: {name: $$owner},
-			plugins: (unique_by(.name) | map({
+			plugins: unique_by(.name) | map({
 				name: .name,
 				source: "./plugins/" + .name
-			}))
+			})
 		}' \
-		$(CLAUDE_PLUGIN_MANIFESTS) </dev/null > "$@"
+		$(filter-out Makefile,$^) </dev/null > "$@"
 
-.github/plugin/marketplace.json: $(COPILOT_PLUGIN_MANIFESTS) Makefile
+.github/plugin/marketplace.json: $(PLUGIN_MANIFESTS) $(wildcard plugins/*/.github/plugin/plugin.json) Makefile
 	@jq -s \
 		--arg name "$(MARKETPLACE_NAME)" \
 		--arg owner "$(OWNER_NAME)" \
 		'{
 			name: $$name,
 			owner: {name: $$owner},
-			plugins: (unique_by(.name) | map({
+			plugins: unique_by(.name) | map({
 				name: .name,
 				source: "./plugins/" + .name
-			}))
+			})
 		}' \
-		$(COPILOT_PLUGIN_MANIFESTS) </dev/null > "$@"
+		$(filter-out Makefile,$^) </dev/null > "$@"
