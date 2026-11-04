@@ -1,11 +1,4 @@
 {
   "name": "go",
-  "lspServers": {
-    "go": {
-      "command": "gopls",
-      "extensionToLanguage": {
-        ".go": "go"
-      }
-    }
-  }
+  "lspServers": "./com.anthropic.claude/.lsp.json"
 }

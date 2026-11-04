@@ -1,11 +1,4 @@
 {
   "name": "ruby",
-  "lspServers": {
-    "ruby": {
-      "command": "ruby-lsp",
-      "extensionToLanguage": {
-        ".rb": "ruby"
-      }
-    }
-  }
+  "lspServers": "./com.anthropic.claude/.lsp.json"
 }

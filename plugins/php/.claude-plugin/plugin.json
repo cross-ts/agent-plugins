@@ -1,14 +1,4 @@
 {
   "name": "php",
-  "lspServers": {
-    "php": {
-      "command": "intelephense",
-      "args": [
-        "--stdio"
-      ],
-      "extensionToLanguage": {
-        ".php": "php"
-      }
-    }
-  }
+  "lspServers": "./com.anthropic.claude/.lsp.json"
 }

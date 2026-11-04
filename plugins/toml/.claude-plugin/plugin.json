@@ -1,14 +1,4 @@
 {
   "name": "toml",
-  "lspServers": {
-    "toml": {
-      "command": "tombi",
-      "args": [
-        "lsp"
-      ],
-      "extensionToLanguage": {
-        ".toml": "toml"
-      }
-    }
-  }
+  "lspServers": "./com.anthropic.claude/.lsp.json"
 }
