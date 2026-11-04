@@ -29,10 +29,6 @@
       "source": "./plugins/ruby"
     },
     {
-      "name": "slack",
-      "source": "./plugins/slack"
-    },
-    {
       "name": "tmux",
       "source": "./plugins/tmux"
     },
