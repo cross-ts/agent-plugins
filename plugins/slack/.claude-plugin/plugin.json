@@ -1,0 +1,4 @@
+{
+  "name": "slack",
+  "mcpServers": "./com.anthropic.claude/.mcp.json"
+}

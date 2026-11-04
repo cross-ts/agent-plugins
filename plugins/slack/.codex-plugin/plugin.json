@@ -1,0 +1,4 @@
+{
+  "name": "slack",
+  "apps": "./com.openai/.app.json"
+}

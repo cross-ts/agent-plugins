@@ -21,12 +21,12 @@ MARKETPLACE_MANIFESTS := $(shell find . -type f -name marketplace.json)
 .PHONY: all
 all: $(MARKETPLACE_MANIFESTS)
 
-.agents/plugins/marketplace.json: $(PLUGIN_MANIFESTS) Makefile
+.agents/plugins/marketplace.json: $(PLUGIN_MANIFESTS) $(wildcard plugins/*/.codex-plugin/plugin.json) Makefile
 	@jq -s \
 		--arg name "$(MARKETPLACE_NAME)" \
 		'{
 			name: $$name,
-			plugins: map({
+			plugins: unique_by(.name) | map({
 				name: .name,
 				source: {
 					source: "local",
@@ -39,32 +39,32 @@ all: $(MARKETPLACE_MANIFESTS)
 				category: "Productivity"
 			})
 		}' \
-		$(PLUGIN_MANIFESTS) </dev/null > "$@"
+		$(filter-out Makefile,$^) </dev/null > "$@"
 
- .claude-plugin/marketplace.json: $(PLUGIN_MANIFESTS) Makefile
+.claude-plugin/marketplace.json: $(PLUGIN_MANIFESTS) $(wildcard plugins/*/.claude-plugin/plugin.json) Makefile
 	@jq -s \
 		--arg name "$(MARKETPLACE_NAME)" \
 		--arg owner "$(OWNER_NAME)" \
 		'{
 			name: $$name,
 			owner: {name: $$owner},
-			plugins: map({
+			plugins: unique_by(.name) | map({
 				name: .name,
 				source: "./plugins/" + .name
 			})
 		}' \
-		$(PLUGIN_MANIFESTS) </dev/null > "$@"
+		$(filter-out Makefile,$^) </dev/null > "$@"
 
-.github/plugin/marketplace.json: $(PLUGIN_MANIFESTS) Makefile
+.github/plugin/marketplace.json: $(PLUGIN_MANIFESTS) $(wildcard plugins/*/.github/plugin/plugin.json) Makefile
 	@jq -s \
 		--arg name "$(MARKETPLACE_NAME)" \
 		--arg owner "$(OWNER_NAME)" \
 		'{
 			name: $$name,
 			owner: {name: $$owner},
-			plugins: map({
+			plugins: unique_by(.name) | map({
 				name: .name,
 				source: "./plugins/" + .name
 			})
 		}' \
-		$(PLUGIN_MANIFESTS) </dev/null > "$@"
+		$(filter-out Makefile,$^) </dev/null > "$@"
