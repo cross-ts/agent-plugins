@@ -50,6 +50,18 @@
       "category": "Productivity"
     },
     {
+      "name": "prompt",
+      "source": {
+        "source": "local",
+        "path": "./plugins/prompt"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "python",
       "source": {
         "source": "local",

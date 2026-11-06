@@ -21,6 +21,10 @@
       "source": "./plugins/php"
     },
     {
+      "name": "prompt",
+      "source": "./plugins/prompt"
+    },
+    {
       "name": "python",
       "source": "./plugins/python"
     },
