@@ -318,7 +318,8 @@ def summary(data, held):
     """Mean scores, costs and the case/rep variance split, for the printed report."""
     plan, runs, stats, lengths = data["plan"], data["runs"], data["stats"], data.get("lengths", {})
     weight, split_of = data["weight"], data["split_of"]
-    models = list(plan.get("models") or DEFAULT_MODELS) + list(gate_models(plan))
+    explore = list(plan.get("models") or DEFAULT_MODELS)
+    models = explore + list(gate_models(plan))
     reps = int(plan.get("reps", 3))
 
     def score(r):
@@ -331,7 +332,7 @@ def summary(data, held):
         for m in models:
             for sp in ("select", "holdout", "regression"):
                 xs = [s for (x, mm, k), rs in runs.items() if x == c and mm == m and split_of.get(k) == sp for s in map(score, rs) if s is not None]
-                if xs or sp == "select":
+                if xs or (sp == "select" and m in explore):
                     cols.append(f"{m}/{sp}=" + (f"{st.mean(xs):.3f}(n{len(xs)})" if xs else "-"))
         lines.append(f"  {c:24s} " + "  ".join(cols))
     lines.append("\ncost per condition / model: document chars, median tokens in/out, tool calls, seconds")
