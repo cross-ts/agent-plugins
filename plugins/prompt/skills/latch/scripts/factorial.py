@@ -29,6 +29,7 @@ analyze reads the graded runs of EXP2. Per exploration model, the effect of a le
 """
 import argparse, csv, json, pathlib, random, re, shutil, statistics as st, sys
 
+sys.dont_write_bytecode = True  # importing a sibling script must not write __pycache__ into the skill directory
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from decide import DEFAULT_CONFIDENCE, DEFAULT_REJECT_DROP, load as load_exp  # noqa: E402
 from run_trials import DEFAULT_MODELS  # noqa: E402

@@ -21,6 +21,7 @@ Writes runs/<id>/grades.json: {row: {"pass": true|false|null, "evidence": ..., "
 """
 import argparse, concurrent.futures as cf, glob, json, os, pathlib, re, shutil, subprocess, sys
 
+sys.dont_write_bytecode = True  # importing a sibling script must not write __pycache__ into the skill directory
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from run_trials import DEFAULT_TARGETS  # noqa: E402
 

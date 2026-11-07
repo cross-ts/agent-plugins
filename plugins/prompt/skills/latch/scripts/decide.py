@@ -39,6 +39,7 @@ import argparse, csv, json, pathlib, statistics as st, sys
 from collections import defaultdict
 from statistics import NormalDist
 
+sys.dont_write_bytecode = True  # importing a sibling script must not write __pycache__ into the skill directory
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from run_trials import DEFAULT_MODELS, gate_models, gate_reps, gate_splits  # noqa: E402
 
