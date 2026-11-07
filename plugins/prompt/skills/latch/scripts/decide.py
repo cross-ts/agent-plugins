@@ -344,7 +344,7 @@ def summary(data, held):
             med = lambda f: (lambda xs: f"{st.median(xs):.0f}" if xs else "-")([s[f] for s in ss if isinstance(s.get(f), (int, float))])
             lines.append(f"  {c:24s} {m:10s} chars={lengths.get(c, '-')} in={med('tokens_in')} out={med('tokens_out')}"
                          f" tools={med('tool_calls')} sec={med('sec')} (n{len(ss)})")
-    lines.append(f"\nvariance of run scores on {held}: between cases vs within a case")
+    var_lines = []
     for m in models:
         by_case = {k: [s for s in map(score, rs) if s is not None] for (x, mm, k), rs in runs.items() if x == held and mm == m}
         by_case = {k: v for k, v in by_case.items() if len(v) >= 2}
@@ -354,7 +354,9 @@ def summary(data, held):
         n_bar = st.mean(len(v) for v in by_case.values())
         between = max(0.0, st.variance([st.mean(v) for v in by_case.values()]) - within / n_bar)
         hint = "more cases help more than more reps" if between >= within / reps else "more reps help as much as more cases"
-        lines.append(f"  {m}: between={between:.3f} within={within:.3f} ({len(by_case)} cases): {hint}")
+        var_lines.append(f"  {m}: between={between:.3f} within={within:.3f} ({len(by_case)} cases): {hint}")
+    if var_lines:
+        lines += [f"\nvariance of run scores on {held}: between cases vs within a case", *var_lines]
     return "\n".join(lines)
 
 
