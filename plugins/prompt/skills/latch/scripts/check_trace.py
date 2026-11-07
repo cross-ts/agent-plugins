@@ -7,6 +7,8 @@ trace.tsv: first column "id" (row id of p.tsv), then one column per candidate (v
 each cell quotes the candidate text that expresses the row. A cell must be non-empty and its quote must
 occur in the candidate file (whitespace-insensitive). Baselines (baseline_*) are not checked.
 variants/baseline_original.md must be a byte-identical copy of plan.json "source" (the current document).
+An A/A control must be a byte-identical copy of what it controls: variants/baseline_aa.md of
+baseline_original.md, variants/baseline_aa_<cond>.md of <cond>.md.
 README files in variants/ are ignored. Exit code 1 when anything is missing.
 """
 import csv, pathlib, re, sys
@@ -44,6 +46,13 @@ if src:
         bad.append(f"variants/baseline_original.md is not a byte-identical copy of {src}")
 elif bo.is_file():
     bad.append("plan.json has no \"source\" (path of the current document) to check baseline_original against")
+for aa in sorted((exp / "variants").glob("baseline_aa*.md")):  # A/A controls: baseline_aa copies baseline_original,
+    ref = "baseline_original" if aa.stem == "baseline_aa" else aa.stem[len("baseline_aa_"):]  # baseline_aa_<c> copies <c>
+    rp = exp / "variants" / f"{ref}.md"
+    if not rp.is_file():
+        bad.append(f"variants/{aa.name} is the A/A copy of {ref}, but variants/{ref}.md does not exist")
+    elif aa.read_bytes() != rp.read_bytes():
+        bad.append(f"variants/{aa.name} is not a byte-identical copy of variants/{ref}.md")
 for b in bad:
     print(b)
 print("OK" if not bad else f"{len(bad)} problems")
