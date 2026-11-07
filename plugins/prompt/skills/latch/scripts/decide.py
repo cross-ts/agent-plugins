@@ -180,14 +180,19 @@ def decide_core(data, held):
                 if row in crit:
                     cv = [r["g"][row].get("pass") for k in ks for r in runs[(c, m, k)] if row in r["g"]]
                     held_violated = any(x is False for k in ks for x in valid((held, m, k), row))
+                    if not held_violated and False in cv:  # a confirmed violation vetoes even beside a judge split
+                        ev = next(r["g"][row].get("evidence", "") for k in ks for r in runs[(c, m, k)]
+                                  if row in r["g"] and r["g"][row].get("pass") is False)
+                        why.append(f"REJECT veto {row} on {m}: {str(ev)[:160]}"); worse("reject")
+                        continue
                     if "split" in cv:
                         why.append(f"hold: judge split on critical {row} {m} (confirm the evidence)"); cells.update((m, k) for k in ks); worse("hold")
                         continue
                     if not held_violated:
-                        if False in cv:
-                            ev = next(r["g"][row].get("evidence", "") for k in ks for r in runs[(c, m, k)]
-                                      if row in r["g"] and r["g"][row].get("pass") is False)
-                            why.append(f"REJECT veto {row} on {m}: {str(ev)[:160]}"); worse("reject")
+                        short = [k for k in ks if len(valid((held, m, k), row)) < base(m) or len(valid((c, m, k), row)) < base(m)]
+                        if short:  # zero violations count only when every case was graded reps times on both sides
+                            why.append(f"hold: critical {m}/{row} has fewer than {base(m)} valid grades on {short}")
+                            cells.update((m, k) for k in short); worse("hold")
                             continue
                         n = sum(1 for x in cv if x is True)
                         if n:
@@ -205,7 +210,7 @@ def decide_core(data, held):
                     why.append(f"REJECT regress {m}/{row}: {band}"); worse("reject")
                 elif hi < margin - EPS:
                     continue
-                elif all(max(total[(held, m, k)], total[(c, m, k)]) >= cap(m) for k in ks):
+                elif all(min(total[(held, m, k)], total[(c, m, k)]) >= cap(m) for k in ks):  # both sides, as held runs are shared
                     why.append(f"unresolved at cap {m}/{row}: {band}"); worse("unresolved")
                 else:
                     why.append(f"hold: {m}/{row}: {band}"); cells.update((m, k) for k in ks); worse("hold")
@@ -233,7 +238,8 @@ def decide_core(data, held):
             gh, _, _ = paired(c, m, hold_cases, scores)
             imp[m] = {"select_diff": g, "select_hi": None if g is None else g + z * se, "holdout_diff": gh}
         shorter = c in lengths and held in lengths and lengths[c] <= (1 - min_shrink) * lengths[held] + EPS
-        hopeful = shorter or any(v["select_hi"] is not None and v["select_hi"] >= min_gain - EPS for v in imp.values())
+        # an unknown bound (no paired select score yet) is not evidence of futility
+        hopeful = shorter or any(v["select_hi"] is None or v["select_hi"] >= min_gain - EPS for v in imp.values())
         out = {"verdict": None, "why": why, "improvement": imp, "extra": [], "gate": False}
         if state == "reject":
             out["verdict"] = "reject"; return out
@@ -293,9 +299,10 @@ def decide_core(data, held):
         report["calibration"] = cal
         if cal["verdict"] == "adopt":
             report["warnings"].append("A/A control would be adopted: the rule is not calibrated; every candidate keeps the held version")
-            for r in report["candidates"].values():
-                if r["verdict"] in ("adopt", "gate"):
-                    r["verdict"] = "keep-held"; r["gate"] = False; r["why"].append("A/A control would be adopted: the held version stays")
+            for r in report["candidates"].values():  # the round stops: no candidate gets more runs or a gate
+                if r["verdict"] in ("adopt", "gate", "hold"):
+                    r["verdict"] = "keep-held"; r["gate"] = False; r["extra"] = []
+                    r["why"].append("A/A control would be adopted: the held version stays")
         elif cal["verdict"] == "reject":
             report["warnings"].append("A/A control was rejected: rejections in this round may be false ones")
     need = {}

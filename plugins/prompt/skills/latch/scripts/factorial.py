@@ -15,7 +15,8 @@ make reads EXP_DIR/factors.json:
   n_variants is a multiple of the number of levels), in a random order chosen, out of 500, as the one whose
   level pairs of every two factors are closest to equal counts. "reps" (default: the plan's) is the
   repetitions per version in EXP2.
-  EXP2 (new) gets p.tsv, cases.jsonl, env/, a plan.json with the exploration models only, variants/
+  EXP2 (new) gets p.tsv, the select cases of cases.jsonl (the results choose candidates, so the holdout cases
+  stay out), env/, a plan.json with the exploration models only, variants/
   baseline_original.md and fac_NN.md, a trace.tsv for the versions and factorial_design.json (their levels).
   Then run: check_trace.py EXP2; run_trials.py EXP2 --probe; run_trials.py EXP2; grade.py EXP2;
   factorial.py EXP2 analyze.
@@ -58,6 +59,11 @@ def level_of(x):
 def make(exp, out):
     spec = json.loads((exp / "factors.json").read_text())
     plan = json.loads((exp / "plan.json").read_text())
+    # select cases only: the results choose the next candidate, so the holdout cases must stay unseen by them
+    select_lines = [l for l in (exp / "cases.jsonl").read_text().splitlines()
+                    if l.strip() and json.loads(l).get("split", "select") == "select"]
+    if not select_lines:
+        sys.exit("cases.jsonl has no select case for the factorial experiment")
     base = spec["base"]
     text = (exp / "variants" / f"{base}.md").read_text()
     rows = [r["id"] for r in csv.DictReader(open(exp / "p.tsv"), delimiter="\t")]
@@ -142,8 +148,8 @@ def make(exp, out):
         (out / "variants" / f"{name}.md").write_text(t)
     if bad:
         shutil.rmtree(out); sys.exit("\n".join(bad))
-    for fname in ("p.tsv", "cases.jsonl"):
-        shutil.copy2(exp / fname, out / fname)
+    shutil.copy2(exp / "p.tsv", out / "p.tsv")
+    (out / "cases.jsonl").write_text("\n".join(select_lines) + "\n")
     env = exp / plan.get("env", "env")
     if env.exists():
         shutil.copytree(env, out / plan.get("env", "env"))
