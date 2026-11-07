@@ -9,6 +9,10 @@
       "source": "./plugins/go"
     },
     {
+      "name": "learning",
+      "source": "./plugins/learning"
+    },
+    {
       "name": "lua",
       "source": "./plugins/lua"
     },
